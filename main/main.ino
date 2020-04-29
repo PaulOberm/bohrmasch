@@ -43,6 +43,8 @@
   https://github.com/PaulOberm
 
 */
+#include <AUnit.h>
+
 #define PIN_LED 9                 // Pin 9 is LED visualization during main
 #define PIN_ISR_LED 10            // Pin 10 is LED for ISR 
 #define PIN_ISR 6 //3             // Pin for interrupt 1
@@ -54,12 +56,10 @@ float velocity = 0;
 
 // Number of interruptions per rpm calculation
 volatile unsigned long interruptions=0;
-
 // Time for the aggregation of interruptions 
-const unsigned long CALCULATE_TIMEINVERVAL = 2000;
-
+const unsigned long CALCULATE_TIMEINVERVAL = 2000;  
 // Number of markers on the V-belt
-const byte INTERUPTIONS_PER_REVOLUTION = 1;                 
+const byte INTERUPTIONS_PER_REVOLUTION = 1;               
 
 void setup()
 {
@@ -68,8 +68,6 @@ void setup()
     
     // Get time for first calculation
     startCalculateTime = millis();
-    Serial.print("Start calculation time: ");
-    Serial.println(startCalculateTime);
 
     // Set pin as output
     pinMode(PIN_LED, OUTPUT);
@@ -93,6 +91,9 @@ void setup()
 
 void loop()
 {
+  // Execute unit tests
+  aunit::TestRunner::run();
+  
   // Test: Toggle LED in set up
   // togglePinTimeControl(PIN_LED, 1000);
 
@@ -111,5 +112,5 @@ void loop()
     interruptions=0;
   }
 
-  delay(100);
+  delay(10);
 }
