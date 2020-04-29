@@ -48,7 +48,7 @@
 #define PIN_ISR 6 //3             // Pin for interrupt 1
 
 const int ISR_PIN_INTERNAL = 2;
-int startCalculateTime;
+unsigned long startCalculateTime;
 int rpm;
 float velocity = 0;
 
@@ -56,7 +56,7 @@ float velocity = 0;
 volatile unsigned long interruptions=0;
 
 // Time for the aggregation of interruptions 
-const unsigned long CALCULATE_TIMEINVERVAL = 1000;
+const unsigned long CALCULATE_TIMEINVERVAL = 2000;
 
 // Number of markers on the V-belt
 const byte INTERUPTIONS_PER_REVOLUTION = 1;                 
@@ -103,11 +103,13 @@ void loop()
     rpm = calculateRevolutionsPerMinute(interruptions, CALCULATE_TIMEINVERVAL, INTERUPTIONS_PER_REVOLUTION);
     Serial.println("Revolutions per Minute: " + (String)rpm + " RPM");
 
+    // Print on LCD screen
+    lcdLoop(round(rpm));
+
     // Reset variables (time and number of interrupts)
     startCalculateTime = millis();
     interruptions=0;
-
-    // Print on LCD screen
-    lcdLoop(round(rpm));
   }
+
+  delay(100);
 }
