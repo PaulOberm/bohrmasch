@@ -1,14 +1,16 @@
 // Interrupt-Service-Routine to count at pin
 void interruptFunction()
 {
-  Serial.print("Interrupt: "); 
-  Serial.println(interruptions);        // ln: additional "new line"
+  // Debug information to check if interrupt executed
+  // Serial.print("Interrupt: "); 
+  // Serial.println(interruptions);
+  
+  // Toggle pin with each interrupt
+  // togglePin(PIN_ISR_LED);
   
   // Increment interruptions counter
   interruptions++; 
-
-  // Toggle pin with each interrupt
-  togglePin(PIN_ISR_LED);
+  
 }
 
 void togglePin(int pinNumber)

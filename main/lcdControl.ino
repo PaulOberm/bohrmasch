@@ -28,6 +28,8 @@
 */
 
 #include <LiquidCrystal.h>
+
+// Connection of LCD with Arduino pins
 const int RS = 12, EN = 11;
 const int D4 = 7, D5 = 6, D6 = 5, D7 = 4;
 
@@ -35,7 +37,7 @@ const int D4 = 7, D5 = 6, D6 = 5, D7 = 4;
 LiquidCrystal lcd(RS, EN, D4, D5, D6, D7);
 
 /*
- * Set up the LCD display 
+ * Set up the LCD display with default values
  */
 void lcdSetup() {
   // Set up LCD's number of columns (16) and rows (2)
@@ -45,15 +47,17 @@ void lcdSetup() {
 
 
 /*
- * Call the print function to update the velocity
- * on the display
+ * Call the print function to update the velocity on the display
+ * Input: 
+ * rpm - Current value of revolutions per minute
  */
-void lcdLoop(float velocity) {
+void lcdLoop(unsigned int rpm) {
+  lcd.clear();
   // Set the cursor to column 0, line 0 (First row)
   lcd.setCursor(0, 0);
   lcd.print("Umdreh./Minute:");
 
   // Set the cursor to column 0, line 1 (Second row)
   lcd.setCursor(0, 1);
-  lcd.print(velocity);
+  lcd.print(rpm);
 }

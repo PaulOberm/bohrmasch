@@ -37,29 +37,33 @@
 
   Created 15.02.2020
   By Obermayer Paul
-  Modified 28.04.2020
+  Modified 30.04.2020
   By Obermayer Paul
 
   https://github.com/PaulOberm
 
 */
 #include <AUnit.h>
+#include "spindle.h"
 
 #define PIN_LED 9                 // Pin 9 is LED visualization during main
 #define PIN_ISR_LED 10            // Pin 10 is LED for ISR 
-#define PIN_ISR 6 //3             // Pin for interrupt 1
+#define ISR_PIN_INTERNAL 2
 
-const int ISR_PIN_INTERNAL = 2;
 unsigned long startCalculateTime;
-int rpm;
-float velocity = 0;
+unsigned int rpm = 0;
 
 // Number of interruptions per rpm calculation
 volatile unsigned long interruptions=0;
+
 // Time for the aggregation of interruptions 
 const unsigned long CALCULATE_TIMEINVERVAL = 2000;  
-// Number of markers on the V-belt
-const byte INTERUPTIONS_PER_REVOLUTION = 1;               
+// Number of markers on the spindle
+const byte MARKERS_PER_REVOLUTION = 1;  
+
+// Construct spindle instance
+Spindle spindleInstance = Spindle(CALCULATE_TIMEINVERVAL, MARKERS_PER_REVOLUTION);
+
 
 void setup()
 {
@@ -67,7 +71,7 @@ void setup()
     Serial.begin(9600);
     
     // Get time for first calculation
-    startCalculateTime = millis();
+    unsigned long startCalculateTime = millis();
 
     // Set pin as output
     pinMode(PIN_LED, OUTPUT);
@@ -75,11 +79,6 @@ void setup()
     // Test pins
     digitalWrite(PIN_LED, HIGH);
     digitalWrite(PIN_ISR_LED, HIGH);
-
-    // Define global variables
-    bool sensorStatus = false;
-    unsigned int rpm = 0; 
-    unsigned long revolutions = 0, lastCalculateTime;
 
     // Control interrupts
     pinMode(ISR_PIN_INTERNAL, INPUT);
@@ -101,11 +100,11 @@ void loop()
   if((millis() - startCalculateTime) > CALCULATE_TIMEINVERVAL){
     
     // Get revolutions per minute
-    rpm = calculateRevolutionsPerMinute(interruptions, CALCULATE_TIMEINVERVAL, INTERUPTIONS_PER_REVOLUTION);
-    Serial.println("Revolutions per Minute: " + (String)rpm + " RPM");
+    rpm = spindleInstance.calculateRevolutionsPerMinute(interruptions);
+    // Serial.println("Revolutions per Minute: " + (String)rpm + " RPM");
 
     // Print on LCD screen
-    lcdLoop(round(rpm));
+    lcdLoop(rpm);
 
     // Reset variables (time and number of interrupts)
     startCalculateTime = millis();
