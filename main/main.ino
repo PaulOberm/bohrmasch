@@ -101,7 +101,7 @@ void loop()
     
     // Get revolutions per minute
     rpm = spindleInstance.calculateRevolutionsPerMinute(interruptions);
-    // Serial.println("Revolutions per Minute: " + (String)rpm + " RPM");
+    Serial.println("Revolutions per Minute: " + (String)rpm + " RPM");
 
     // Print on LCD screen
     lcdLoop(rpm);

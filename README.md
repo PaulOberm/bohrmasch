@@ -32,3 +32,7 @@ Der Aufbau kann mit einem einfachen Kühlschrankmagneten getestet werden.
 ## Schaltplan
 
 ![Schaltplan ohne Knopfschalter](bohrmasch_board_connection.png?raw=true "Schaltplan")
+
+
+## Einbau
+https://www.instructables.com/id/Standbohrmaschinendrehzahlanzeige/ 

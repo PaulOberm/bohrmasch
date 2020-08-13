@@ -9,7 +9,8 @@ void interruptFunction()
   // togglePin(PIN_ISR_LED);
   
   // Increment interruptions counter
-  interruptions++; 
+  interruptions++;
+  Serial.println("Interrrupt");
   
 }
 
